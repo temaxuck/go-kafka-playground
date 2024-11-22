@@ -43,7 +43,7 @@ func main() {
 				Topic:     &topic,
 				Partition: kafka.PartitionAny,
 			},
-			Key:   []byte("not-messages"),
+			Key:   []byte("messages"),
 			Value: []byte(word),
 		}, nil)
 		wg.Add(1)

@@ -20,7 +20,10 @@ func main() {
 
 	defer c.Close()
 
-	err = c.SubscribeTopics([]string{"test-topic", "^aRegex.*[Tt]opic"}, nil)
+	// err = c.SubscribeTopics([]string{"test-topic", "^aRegex.*[Tt]opic"}, nil)
+	err = c.Assign([]kafka.TopicPartition{
+		{Topic: &[]string{"test-topic"}[0], Partition: 0},
+	})
 
 	if err != nil {
 		panic(err)
@@ -29,7 +32,7 @@ func main() {
 	run := true
 
 	for run {
-		msg, err := c.ReadMessage(time.Second)
+		msg, err := c.ReadMessage(time.Millisecond)
 		if err == nil {
 			if string(msg.Key) == "messages" {
 				fmt.Printf("Message on %s: %s\n", msg.TopicPartition, string(msg.Value))
